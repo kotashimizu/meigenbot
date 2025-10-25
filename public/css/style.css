@@ -142,28 +142,34 @@ body {
 
 /* Message Avatar */
 .message-avatar {
-    font-size: 1.8rem;
     min-width: 50px;
     height: 50px;
     display: flex;
     align-items: center;
     justify-content: center;
-    background: rgba(0, 169, 157, 0.1);
+    background-color: rgba(0, 169, 157, 0.1);
     border-radius: 50%;
-    color: var(--primary-color);
+    background-size: 70%;
+    background-position: center;
+    background-repeat: no-repeat;
+    overflow: hidden;
 }
 
+/* Font Awesomeアイコンを非表示 */
 .message-avatar i {
-    font-size: 1.8rem;
+    display: none;
 }
 
-/* ボット側のアイコンを左右反転 */
+/* ボット側のアイコン（偉人の画像） */
 .bot-message .message-avatar {
+    background-image: url('../images/bot-avatar.png');
     transform: scaleX(-1);
 }
 
+/* ユーザー側のアイコン（人の画像） */
 .user-message .message-avatar {
-    background: rgba(26, 43, 76, 0.1);
+    background-image: url('../images/user-avatar.png');
+    background-color: rgba(26, 43, 76, 0.1);
 }
 
 /* Message Content */
@@ -414,13 +420,8 @@ body {
     }
 
     .message-avatar {
-        font-size: 1.3rem;
         min-width: 40px;
         height: 40px;
-    }
-
-    .message-avatar i {
-        font-size: 1.3rem;
     }
 
     .quote-button {
