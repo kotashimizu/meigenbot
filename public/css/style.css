@@ -142,7 +142,7 @@ body {
 
 /* Message Avatar */
 .message-avatar {
-    font-size: 2rem;
+    font-size: 1.8rem;
     min-width: 50px;
     height: 50px;
     display: flex;
@@ -150,6 +150,16 @@ body {
     justify-content: center;
     background: rgba(0, 169, 157, 0.1);
     border-radius: 50%;
+    color: var(--primary-color);
+}
+
+.message-avatar i {
+    font-size: 1.8rem;
+}
+
+/* ボット側のアイコンを左右反転 */
+.bot-message .message-avatar {
+    transform: scaleX(-1);
 }
 
 .user-message .message-avatar {
@@ -404,9 +414,13 @@ body {
     }
 
     .message-avatar {
-        font-size: 1.5rem;
+        font-size: 1.3rem;
         min-width: 40px;
         height: 40px;
+    }
+
+    .message-avatar i {
+        font-size: 1.3rem;
     }
 
     .quote-button {

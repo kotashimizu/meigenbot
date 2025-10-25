@@ -58,7 +58,11 @@ function createMessage(type, content) {
 
     const avatarDiv = document.createElement('div');
     avatarDiv.className = 'message-avatar';
-    avatarDiv.textContent = type === 'user' ? '🧑' : '🧠';
+
+    // Font Awesomeアイコンを使用
+    const icon = document.createElement('i');
+    icon.className = type === 'user' ? 'fas fa-user' : 'fas fa-user-tie';
+    avatarDiv.appendChild(icon);
 
     const contentDiv = document.createElement('div');
     contentDiv.className = 'message-content';
