@@ -1,0 +1,466 @@
+/* ========================================
+   WiseTalk - CSS Stylesheet
+   カラースキーム:
+   - メインカラー: #1A2B4C (濃いネイビー)
+   - アクセントカラー: #00A99D (ターコイズ)
+   - 背景色: #F5F7FA (明るいグレー)
+======================================== */
+
+/* ========================================
+   Reset & Base Styles
+======================================== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --primary-color: #1A2B4C;
+    --accent-color: #00A99D;
+    --background-color: #F5F7FA;
+    --text-color: #1A1A1A;
+    --light-gray: #E6E6E6;
+    --white: #FFFFFF;
+    --shadow: 0 4px 20px rgba(26, 43, 76, 0.1);
+    --shadow-hover: 0 6px 30px rgba(26, 43, 76, 0.15);
+}
+
+body {
+    font-family: "Noto Sans JP", sans-serif;
+    background: var(--background-color);
+    color: var(--text-color);
+    line-height: 1.6;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+/* ========================================
+   Container
+======================================== */
+.container {
+    width: 100%;
+    max-width: 600px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* ========================================
+   Header
+======================================== */
+.header {
+    text-align: center;
+    padding: 30px 20px;
+    background: var(--white);
+    border-radius: 20px;
+    box-shadow: var(--shadow);
+}
+
+.logo {
+    font-family: "Playfair Display", serif;
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--primary-color);
+    margin-bottom: 10px;
+}
+
+.subtitle {
+    font-size: 1rem;
+    color: var(--accent-color);
+    font-weight: 500;
+}
+
+/* ========================================
+   Date Display
+======================================== */
+.date-display {
+    text-align: center;
+    font-size: 0.9rem;
+    color: var(--primary-color);
+    padding: 10px;
+    background: rgba(255, 255, 255, 0.7);
+    border-radius: 10px;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.date-display.visible {
+    opacity: 1;
+}
+
+/* ========================================
+   Chat Container
+======================================== */
+.chat-container {
+    background: var(--white);
+    border-radius: 20px;
+    padding: 30px 20px;
+    box-shadow: var(--shadow);
+    min-height: 400px;
+    max-height: 600px;
+    overflow-y: auto;
+    position: relative;
+}
+
+.chat-box {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* ========================================
+   Messages
+======================================== */
+.message {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    animation: slideIn 0.4s ease-out;
+}
+
+/* User Message (Right aligned) */
+.user-message {
+    flex-direction: row-reverse;
+    justify-content: flex-start;
+}
+
+.user-message .message-content {
+    background: var(--light-gray);
+    border-radius: 18px 18px 4px 18px;
+}
+
+/* Bot Message (Left aligned) */
+.bot-message .message-content {
+    background: var(--primary-color);
+    color: var(--white);
+    border-radius: 18px 18px 18px 4px;
+}
+
+/* Message Avatar */
+.message-avatar {
+    font-size: 2rem;
+    min-width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 169, 157, 0.1);
+    border-radius: 50%;
+}
+
+.user-message .message-avatar {
+    background: rgba(26, 43, 76, 0.1);
+}
+
+/* Message Content */
+.message-content {
+    padding: 15px 20px;
+    max-width: 70%;
+    word-wrap: break-word;
+}
+
+.message-text {
+    font-size: 1rem;
+    line-height: 1.6;
+}
+
+/* Quote Specific Styling */
+.quote-text {
+    font-size: 1.1rem;
+    line-height: 1.7;
+    font-weight: 500;
+    margin-bottom: 12px;
+    font-style: italic;
+}
+
+.quote-author {
+    font-size: 0.95rem;
+    color: var(--accent-color);
+    font-weight: 600;
+    margin-top: 8px;
+}
+
+.bot-message .quote-author {
+    color: var(--accent-color);
+}
+
+.quote-bio {
+    font-size: 0.85rem;
+    color: rgba(255, 255, 255, 0.8);
+    margin-top: 6px;
+    line-height: 1.5;
+}
+
+.user-message .message-text {
+    color: var(--text-color);
+}
+
+/* Initial Message */
+.initial-message {
+    opacity: 0;
+    animation: fadeIn 0.6s ease-in forwards;
+    animation-delay: 0.3s;
+}
+
+/* ========================================
+   Loading Indicator
+======================================== */
+.loading {
+    display: none;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+.loading.active {
+    display: flex;
+}
+
+.loading-dots {
+    display: flex;
+    gap: 8px;
+}
+
+.loading-dots span {
+    width: 10px;
+    height: 10px;
+    background: var(--accent-color);
+    border-radius: 50%;
+    animation: bounce 1.4s infinite ease-in-out both;
+}
+
+.loading-dots span:nth-child(1) {
+    animation-delay: -0.32s;
+}
+
+.loading-dots span:nth-child(2) {
+    animation-delay: -0.16s;
+}
+
+/* ========================================
+   Input Area
+======================================== */
+.input-area {
+    padding: 0;
+}
+
+.quote-button {
+    width: 100%;
+    padding: 18px 30px;
+    background: var(--accent-color);
+    color: var(--white);
+    border: none;
+    border-radius: 15px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    font-family: "Noto Sans JP", sans-serif;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    box-shadow: var(--shadow);
+    transition: all 0.3s ease;
+}
+
+.quote-button:hover {
+    background: #008f85;
+    box-shadow: var(--shadow-hover);
+    transform: translateY(-2px);
+}
+
+.quote-button:active {
+    transform: translateY(0);
+}
+
+.quote-button:disabled {
+    background: #cccccc;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.button-icon {
+    font-size: 1.3rem;
+}
+
+.button-text {
+    font-size: 1rem;
+}
+
+/* ========================================
+   Footer
+======================================== */
+.footer {
+    text-align: center;
+    padding: 15px;
+    font-size: 0.85rem;
+    color: var(--primary-color);
+    opacity: 0.7;
+}
+
+/* ========================================
+   Animations
+======================================== */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateX(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.user-message {
+    animation: slideInRight 0.4s ease-out;
+}
+
+@keyframes slideInRight {
+    from {
+        opacity: 0;
+        transform: translateX(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes bounce {
+    0%, 80%, 100% {
+        transform: scale(0);
+    }
+    40% {
+        transform: scale(1);
+    }
+}
+
+/* ========================================
+   Scrollbar Styling
+======================================== */
+.chat-container::-webkit-scrollbar {
+    width: 8px;
+}
+
+.chat-container::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 10px;
+}
+
+.chat-container::-webkit-scrollbar-thumb {
+    background: var(--accent-color);
+    border-radius: 10px;
+}
+
+.chat-container::-webkit-scrollbar-thumb:hover {
+    background: #008f85;
+}
+
+/* ========================================
+   Responsive Design
+======================================== */
+@media (max-width: 768px) {
+    .container {
+        max-width: 100%;
+    }
+
+    .logo {
+        font-size: 2rem;
+    }
+
+    .subtitle {
+        font-size: 0.9rem;
+    }
+
+    .chat-container {
+        min-height: 300px;
+        max-height: 500px;
+        padding: 20px 15px;
+    }
+
+    .message-content {
+        max-width: 80%;
+        padding: 12px 15px;
+    }
+
+    .quote-text {
+        font-size: 1rem;
+    }
+
+    .message-avatar {
+        font-size: 1.5rem;
+        min-width: 40px;
+        height: 40px;
+    }
+
+    .quote-button {
+        padding: 15px 25px;
+        font-size: 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    body {
+        padding: 10px;
+    }
+
+    .header {
+        padding: 20px 15px;
+    }
+
+    .logo {
+        font-size: 1.8rem;
+    }
+
+    .chat-container {
+        padding: 15px 10px;
+    }
+
+    .message-content {
+        max-width: 85%;
+        padding: 10px 12px;
+    }
+
+    .quote-text {
+        font-size: 0.95rem;
+    }
+
+    .quote-author {
+        font-size: 0.85rem;
+    }
+
+    .quote-bio {
+        font-size: 0.8rem;
+    }
+}
+
+/* ========================================
+   Utility Classes
+======================================== */
+.hidden {
+    display: none;
+}
+
+.visible {
+    display: block;
+}
+
+.fade-in {
+    animation: fadeIn 0.5s ease-in;
+}

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WiseTalk - 偉人の言葉チャットボット</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <h1 class="logo">WiseTalk</h1>
+            <p class="subtitle">偉人の言葉チャットボット</p>
+        </header>
+
+        <!-- Date Display -->
+        <div class="date-display" id="dateDisplay"></div>
+
+        <!-- Chat Container -->
+        <div class="chat-container">
+            <div class="chat-box" id="chatBox">
+                <!-- Initial message -->
+                <div class="message bot-message initial-message">
+                    <div class="message-avatar">🧠</div>
+                    <div class="message-content">
+                        <div class="message-text">
+                            こんにちは。私は偉人たちの知恵をお届けするボットです。<br>
+                            「名言をもらう」ボタンを押して、今日の言葉を受け取ってください。
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Loading indicator -->
+            <div class="loading" id="loadingIndicator">
+                <div class="loading-dots">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Input Area -->
+        <div class="input-area">
+            <button class="quote-button" id="quoteButton" onclick="getQuote()">
+                <span class="button-icon">💬</span>
+                <span class="button-text">名言をもらう</span>
+            </button>
+        </div>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p>Powered by n8n | WiseTalk &copy; 2025</p>
+        </footer>
+    </div>
+
+    <!-- JavaScript -->
+    <script src="js/app.js"></script>
+</body>
+</html>

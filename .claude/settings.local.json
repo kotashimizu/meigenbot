@@ -1,0 +1,20 @@
+{
+  "permissions": {
+    "allow": [
+      "mcp__serena__list_dir",
+      "Bash(tree:*)",
+      "Bash(gh:*)",
+      "Bash(git init:*)",
+      "Bash(git add:*)"
+    ]
+  },
+  "enableAllProjectMcpServers": true,
+  "enabledMcpjsonServers": [
+    "braveSearch",
+    "filesystem",
+    "context7",
+    "supabase",
+    "notion",
+    "serena"
+  ]
+}
