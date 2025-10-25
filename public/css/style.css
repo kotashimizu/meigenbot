@@ -147,9 +147,9 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: rgba(0, 169, 157, 0.1);
+    background-color: transparent;
     border-radius: 50%;
-    background-size: 70%;
+    background-size: 100%;
     background-position: center;
     background-repeat: no-repeat;
     overflow: hidden;
@@ -169,7 +169,6 @@ body {
 /* ユーザー側のアイコン（人の画像） */
 .user-message .message-avatar {
     background-image: url('../images/user-avatar.png');
-    background-color: rgba(26, 43, 76, 0.1);
 }
 
 /* Message Content */
