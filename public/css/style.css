@@ -203,11 +203,13 @@ body {
     color: var(--accent-color);
 }
 
-.quote-bio {
-    font-size: 0.85rem;
-    color: rgba(255, 255, 255, 0.8);
-    margin-top: 6px;
-    line-height: 1.5;
+.quote-explanation {
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.85);
+    margin-top: 10px;
+    line-height: 1.7;
+    padding-top: 8px;
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 .user-message .message-text {
@@ -459,8 +461,8 @@ body {
         font-size: 0.85rem;
     }
 
-    .quote-bio {
-        font-size: 0.8rem;
+    .quote-explanation {
+        font-size: 0.85rem;
     }
 }
 

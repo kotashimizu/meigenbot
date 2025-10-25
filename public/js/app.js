@@ -161,8 +161,8 @@ function addBotMessage(data) {
         <div class="quote-author">
             – ${data.author}
         </div>
-        <div class="quote-bio">
-            ${data.bio}
+        <div class="quote-explanation">
+            ${data.explanation}
         </div>
     `;
     const botMessage = createMessage('bot', botMessageContent);
