@@ -12,7 +12,9 @@
 const CONFIG = {
     API_URL: 'https://n8n.ichi-dify.com/webhook/394837e1-cffc-436e-b568-79404f497be6',
     ANIMATION_DELAY: 300,
-    SCROLL_BEHAVIOR: 'smooth'
+    SCROLL_BEHAVIOR: 'smooth',
+    MAX_RETRY: 5,  // 重複時の最大リトライ回数
+    STORAGE_KEY: 'wisetalk_displayed_quotes'  // localStorage のキー
 };
 
 // ========================================
@@ -28,6 +30,65 @@ const dateDisplay = document.getElementById('dateDisplay');
 // ========================================
 let isLoading = false;
 let quoteCount = 0;
+let displayedQuotes = new Set();  // 表示済み名言のセット
+
+// ========================================
+// LocalStorage Functions
+// ========================================
+
+/**
+ * Load displayed quotes from localStorage
+ */
+function loadDisplayedQuotes() {
+    try {
+        const stored = localStorage.getItem(CONFIG.STORAGE_KEY);
+        if (stored) {
+            displayedQuotes = new Set(JSON.parse(stored));
+            console.log(`Loaded ${displayedQuotes.size} displayed quotes from storage`);
+        }
+    } catch (error) {
+        console.error('Error loading displayed quotes:', error);
+        displayedQuotes = new Set();
+    }
+}
+
+/**
+ * Save displayed quotes to localStorage
+ */
+function saveDisplayedQuotes() {
+    try {
+        localStorage.setItem(CONFIG.STORAGE_KEY, JSON.stringify([...displayedQuotes]));
+    } catch (error) {
+        console.error('Error saving displayed quotes:', error);
+    }
+}
+
+/**
+ * Add quote to displayed list
+ * @param {string} quote - Quote text
+ */
+function addDisplayedQuote(quote) {
+    displayedQuotes.add(quote);
+    saveDisplayedQuotes();
+}
+
+/**
+ * Check if quote was already displayed
+ * @param {string} quote - Quote text
+ * @returns {boolean}
+ */
+function isQuoteDisplayed(quote) {
+    return displayedQuotes.has(quote);
+}
+
+/**
+ * Clear all displayed quotes (reset)
+ */
+function clearDisplayedQuotes() {
+    displayedQuotes.clear();
+    localStorage.removeItem(CONFIG.STORAGE_KEY);
+    console.log('Displayed quotes cleared');
+}
 
 // ========================================
 // Utility Functions
@@ -193,6 +254,39 @@ async function fetchQuote() {
 // ========================================
 
 /**
+ * Fetch unique quote (with retry for duplicates)
+ * @param {number} retryCount - Current retry count
+ * @returns {Promise<Object>} Quote data
+ */
+async function fetchUniqueQuote(retryCount = 0) {
+    const quoteData = await fetchQuote();
+
+    // Validate response data
+    if (!quoteData || !quoteData.quote || !quoteData.author) {
+        throw new Error('無効なデータ形式です');
+    }
+
+    // Check if quote is duplicate
+    if (isQuoteDisplayed(quoteData.quote)) {
+        console.log(`Duplicate quote detected (retry ${retryCount + 1}/${CONFIG.MAX_RETRY}): "${quoteData.quote}"`);
+
+        // If max retries reached, return anyway
+        if (retryCount >= CONFIG.MAX_RETRY) {
+            console.warn('Max retries reached. Returning duplicate quote.');
+            return quoteData;
+        }
+
+        // Wait a bit before retry
+        await new Promise(resolve => setTimeout(resolve, 500));
+
+        // Retry
+        return fetchUniqueQuote(retryCount + 1);
+    }
+
+    return quoteData;
+}
+
+/**
  * Get quote - Main function
  */
 async function getQuote() {
@@ -211,13 +305,8 @@ async function getQuote() {
         // Wait for animation
         await new Promise(resolve => setTimeout(resolve, CONFIG.ANIMATION_DELAY));
 
-        // Fetch quote from API
-        const quoteData = await fetchQuote();
-
-        // Validate response data
-        if (!quoteData || !quoteData.quote || !quoteData.author) {
-            throw new Error('無効なデータ形式です');
-        }
+        // Fetch unique quote from API (with duplicate check)
+        const quoteData = await fetchUniqueQuote();
 
         // Update date if available
         if (quoteData.date) {
@@ -233,8 +322,13 @@ async function getQuote() {
         // Add bot message
         addBotMessage(quoteData);
 
+        // Save quote to displayed list
+        addDisplayedQuote(quoteData.quote);
+
         // Increment quote count
         quoteCount++;
+
+        console.log(`Total unique quotes displayed: ${displayedQuotes.size}`);
 
     } catch (error) {
         // Hide loading
@@ -283,6 +377,9 @@ function initEventListeners() {
  */
 function init() {
     console.log('WiseTalk initialized');
+
+    // Load displayed quotes from localStorage
+    loadDisplayedQuotes();
 
     // Set up event listeners
     initEventListeners();
